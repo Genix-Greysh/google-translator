@@ -8,18 +8,19 @@ and GitHub: https://github.com/gabrielpacheco23/google-translator
 
 ```dart
 void main() async {
-  GoogleTranslator translator = new GoogleTranslator();
+  final translator = GoogleTranslator();
 
-  String input = "Здравствуйте. Ты в порядке?";
+  final input = "Здравствуйте. Ты в порядке?";
 
-  translator.translate(input, from: 'ru', to: 'en').then((s) {
-    print(s);
-  });
+  translator.translate(input, from: 'ru', to: 'en').then(print);
   // prints Hello. Are you okay?
   
   var translation = await translator.translate("Dart is very cool!", to: 'pl');
   print(translation);
   // prints Dart jest bardzo fajny!
+
+  print(await "example".translate(to: 'pt'));
+  // prints exemplo
 }
 ```
 &nbsp;
@@ -27,18 +28,17 @@ void main() async {
 Using **translate** method passing the args **from** and **to** designates the
 language from text you're typing and the language to be translated
 ``` dart
-translator.translate("I love Brazil!", from: 'en' to: 'pt').then((s) {
+translator.translate("I love Brazil!", from: 'en', to: 'pt').then((s) {
     print(s);
   }); 
   // prints Eu amo o Brasil!
 ```
 &nbsp;
 
-or you can omit from language and it'll use ```auto``` key
-that auto-detect the language of source text
+or you can omit from language and it'll auto-detect the language of source text
 
 ```dart
-translator.translate("Hello", to: 'es').then((s) => print(s));
+translator.translate("Hello", to: 'es').then(print);
 // prints Hola
 ```
 &nbsp;
@@ -46,8 +46,24 @@ translator.translate("Hello", to: 'es').then((s) => print(s));
 and also pass the value to a var using ```await```
 ```dart
 var translation = await translator.translate("I would buy a car, if I had money.", from: 'en', to: 'it');
-  print(translation);
+print(translation);
 // prints Vorrei comprare una macchina, se avessi i soldi.
+```
+&nbsp;
+
+The returned value is a ```Translation``` object which holds the translation stuff
+```dart
+var translation = await translator.translate('Translation', from: 'en', to: 'es');
+print('${translation.source} (${translation.sourceLanguage}) == ${translation.text} (${translation.targetLanguage})');
+
+// prints Translation (English) == Traducción (Spanish)
+```
+&nbsp;
+
+You can use the ***extension method*** directly on the string too
+```dart
+print(await "example".translate(to: 'pt'));
+// prints exemplo
 ```
 &nbsp;
 
@@ -65,7 +81,7 @@ For full API docs take a look at https://pub.dartlang.org/documentation/translat
 # License
 MIT License
 
-Copyright © 2018 Gabriel Pacheco
+Copyright © 2021 Gabriel Pacheco
 
 
 # Disclaimer
